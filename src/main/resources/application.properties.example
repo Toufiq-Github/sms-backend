@@ -1,0 +1,23 @@
+# Server
+server.port=8080
+
+# Database
+spring.datasource.url=jdbc:postgresql://localhost:5432/student_management
+spring.datasource.username=postgres
+spring.datasource.password=sa123
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# JPA
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# JWT
+jwt.secret=spectrumSecretKey2024SuperLongSecretKeyForJWT
+jwt.expiration=86400000
+
+# File Upload
+spring.servlet.multipart.enabled=true
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+file.upload.directory=./uploads
