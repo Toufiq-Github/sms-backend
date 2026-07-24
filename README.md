@@ -2,29 +2,75 @@
 
 A full-stack enterprise-style web application for secure document upload, automated data extraction, structured storage, and report generation — built with Spring Boot, Angular, and PostgreSQL.
 
-## 🧭 Overview
+---
 
-DMS allows authenticated users to upload PDF, Excel, and CSV files. Instead of just storing files, the system **reads and parses their content**, automatically detects data types (String, Integer, Float), and persists the extracted data into PostgreSQL using a **schema-based dynamic table architecture** — files sharing the same structure reuse a table, while structurally different files get isolated tables.
+# 🧭 Overview
 
-Users can preview, view, filter by date, and permanently delete their data. Admins get dedicated user management capabilities. The system also generates downloadable PDF/Excel reports from stored data.
+DMS (Data Management & Reporting System) is an enterprise-style full-stack application designed to simplify document processing, structured data storage, and automated reporting.
+
+The system allows authenticated users to upload PDF, Excel, and CSV files. Instead of only storing uploaded files, DMS automatically reads and parses file contents, detects data types (String, Integer, Float), and stores extracted data into PostgreSQL using a **schema-based dynamic table architecture**.
+
+Files with identical structures reuse existing database tables, while structurally different files are stored separately in isolated dynamic tables.
+
+Users can preview uploaded data, view processed datasets, filter records by date, generate reports, and permanently delete their uploaded data.
+
+Administrators have additional capabilities including user management, account activation/deactivation, role management, and complete system monitoring.
 
 ---
 
-## ✨ Features
+# ✨ Features
 
-- **JWT-based Authentication** — secure registration/login with BCrypt password hashing
-- **Role-Based Access Control** — Admin vs. User permissions enforced at the API level
-- **Multi-format File Upload** — PDF, Excel (.xlsx/.xls), CSV, with multi-file support
-- **Automated Data Extraction** — reads file contents and detects data types automatically
-- **Dynamic Schema-Based Storage** — one table per unique data structure; identical structures reuse existing tables
-- **Instant Data Preview** — parsed data displayed immediately after upload
-- **Standalone Data Viewer** — view any previously uploaded file's data in a new window
-- **Date-based Filtering** — filter uploads by year/month/day
-- **Permanent Deletion** — removes both the file record and its underlying stored data
-- **Report Generation** — export PDF and Excel reports from live data
-- **Per-user Data Isolation** — each user only sees and manages their own files/reports
-- **Admin Panel** — user management, activation/deactivation, promotion, deletion
+## 🔐 Authentication & Security
+
+- JWT-based authentication system
+- Secure user registration and login
+- BCrypt password hashing
+- Stateless authentication using JWT tokens
+- Protected API endpoints using Spring Security
+- Role-based access control (Admin/User)
 
 ---
 
-# 🏗️ Architecture
+## 📂 File Management
+
+- Upload multiple files simultaneously
+- Supported formats:
+  - Excel (.xlsx, .xls)
+  - CSV
+  - PDF
+
+- Automatic file processing
+- File metadata storage
+- Upload history tracking
+- User-specific file ownership
+- Permanent file deletion
+
+---
+
+## 📊 Automated Data Extraction
+
+- Reads uploaded documents automatically
+- Extracts structured information
+- Detects column data types:
+  - String
+  - Integer
+  - Float
+
+- Provides instant preview before saving
+- Supports large datasets through dynamic processing
+
+---
+
+## 🗄️ Dynamic Database Architecture
+
+The system uses a schema-based dynamic table approach.
+
+Features:
+
+- Creates database tables dynamically based on uploaded file structure
+- Detects duplicate structures
+- Reuses existing tables when column structures match
+- Creates separate tables for different schemas
+- Maintains dataset metadata and relationships
+
+Example:
