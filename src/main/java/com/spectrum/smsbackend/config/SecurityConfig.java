@@ -58,11 +58,27 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeHttpRequests(auth -> auth
+                        // Public authentication endpoints
                         .requestMatchers("/api/auth/**").permitAll()
+
+                        // Admin-only endpoints – existing ones
                         .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+
+                        // 👇 NEW admin-protected endpoint (replace with your actual path)
+                        .requestMatchers("/api/admin-new/**").hasAuthority("ROLE_ADMIN")
+
+                        // Authenticated user endpoints
                         .requestMatchers("/api/data/**").authenticated()
+                        .requestMatchers("/api/files/**").authenticated()
+                        .requestMatchers("/api/dashboard/**").authenticated()
+                        .requestMatchers("/api/reports/**").authenticated()
+                        .requestMatchers("/api/profile/**").authenticated()
+
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
@@ -73,31 +89,18 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
-
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:4200",
-                "https://sms-frontend.vercel.app"
+                "https://sms-frontendd.vercel.app"
         ));
-
         configuration.setAllowedMethods(Arrays.asList(
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "OPTIONS"
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
         ));
-
         configuration.setAllowedHeaders(Arrays.asList("*"));
-
         configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
-
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
     }
 }
